@@ -7,7 +7,6 @@ import (
 )
 
 func Init() {
-	fmt.Println("aaa")
 	db := GetCredentials()
 	defer db.Close()
 
