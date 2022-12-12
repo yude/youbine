@@ -10,9 +10,5 @@ func post_message(c *fiber.Ctx) error {
 
 	database.AddMessage(value, c.IP()+":"+c.Port())
 
-	return c.Render("public/index.html", fiber.Map{
-		"Message": `<div class="alert alert-success" role="alert">
-						<p>✅ 送信しました。メッセージありがとうございます♪</p>
-					</div>`,
-	})
+	return c.SendString("メッセージありがとうございます♪")
 }
