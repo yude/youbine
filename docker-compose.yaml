@@ -14,7 +14,7 @@ services:
       - ./data/db:/var/lib/postgresql/data
 
   app:
-    image: ghcr.io/yude/youbine:latest
+    image: ghcr.io/yude/youbine:master
     restart: unless-stopped
     environment:
       POSTGRES_USER: app
