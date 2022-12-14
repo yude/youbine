@@ -1,7 +1,7 @@
 FROM golang:latest AS builder
 
 WORKDIR /app
-COPY ./app /app
+COPY . /app
 RUN go build .
 
 FROM alpine:latest AS runner
