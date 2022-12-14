@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:latest
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
@@ -12,3 +12,15 @@ services:
       - 5432:5432
     volumes:
       - ./data/db:/var/lib/postgresql/data
+
+  app:
+    image: ghcr.io/yude/youbine:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      PGPASSWORD: app
+      POSTGRES_DB: app
+      TZ: "Asia/Tokyo"
+    ports:
+      - 3000:3000
