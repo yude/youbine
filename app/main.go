@@ -2,35 +2,27 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"time"
 
 	_ "embed"
 
-	"github.com/markbates/pkger"
 	"github.com/yude/youbine/database"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/timeout"
-	"github.com/gofiber/template/html"
 )
+
+//go:embed public/index.html
+var index_html string
 
 func main() {
 	database.Init()
 
-	engine := html.NewFileSystem(pkger.Dir("/public"), ".html")
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
-
-	// Provide a minimal config
-	app.Use(filesystem.New(filesystem.Config{
-		Root: http.Dir("./public"),
-	}))
+	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("index.html", fiber.Map{})
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+		return c.SendString(index_html)
 	})
 	app.Post("/post", timeout.New(post_message, 60*time.Second))
 
