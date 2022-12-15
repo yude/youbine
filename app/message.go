@@ -13,8 +13,13 @@ var post_html string
 func post_message(c *fiber.Ctx) error {
 	value := c.FormValue("value")
 
-	database.AddMessage(value, c.IP()+":"+c.Port())
+	if value == "" {
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+		return c.SendString(post_html)
+	} else {
+		database.AddMessage(value, c.IP()+":"+c.Port())
 
-	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-	return c.SendString(post_html)
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
+		return c.SendString(post_html)
+	}
 }
