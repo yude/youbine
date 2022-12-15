@@ -20,16 +20,19 @@
               </tr>
             </thead>
             <tbody>
-                {{range $index, $element := .}}
-                {{range $element}}
+                {{ range $index, $element := . }}
+                {{ range $element }}
+                {{ if eq .Content "" }}
+                {{ else }}
                 <tr>
-                    <td>{{.Id}}</td>
-                    <td>{{.Content}}</td>
-                    <td>{{.IpAddr}}</td>
-                    <td>{{.DateTime.Format "2006/1/2 15:04:05"}}</td>
+                    <td>{{ .Id }}</td>
+                    <td>{{ .Content }}</td>
+                    <td>{{ .IpAddr }}</td>
+                    <td>{{ .DateTime.Format "2006/1/2 15:04:05" }}</td>
                 </tr>
-                {{end}}
-                {{end}}
+                {{ end }}
+                {{ end }}
+                {{ end }}
             </tbody>
           </table>
     </div>

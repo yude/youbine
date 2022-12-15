@@ -17,7 +17,9 @@ func Login(ctx *fiber.Ctx) error {
 
 	err := bcrypt.CompareHashAndPassword(origin_password, []byte(value))
 	if err != nil {
-		return ctx.SendStatus(fiber.StatusUnauthorized)
+		return ctx.Render("public/login", fiber.Map{
+			"notice": "パスワードが違います。",
+		})
 	}
 
 	payload := jwt.StandardClaims{
@@ -29,8 +31,8 @@ func Login(ctx *fiber.Ctx) error {
 
 	if err != nil {
 		ctx.Status(fiber.StatusInternalServerError)
-		return ctx.JSON(fiber.Map{
-			"message": "Internal server error",
+		return ctx.Render("public/login", fiber.Map{
+			"notice": "サーバー内で問題が発生しました。",
 		})
 	}
 

@@ -4,6 +4,7 @@ import (
 	"embed"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	_ "embed"
@@ -19,16 +20,14 @@ import (
 	"github.com/gofiber/template/html"
 )
 
-//go:embed public/index.html
-var index_html string
-
-//go:embed public/login.html
-var login_html string
-
 //go:embed public/*
 var publicfs embed.FS
 
 func main() {
+	if os.Getenv("ADMIN_PASSWORD") == "" {
+		log.Fatal("環境変数 ADMIN_PASSWORD を設定してから起動してください。")
+	}
+
 	database.Init()
 
 	engine := html.NewFileSystem(http.FS(publicfs), ".html")
@@ -40,12 +39,14 @@ func main() {
 		AllowCredentials: true,
 	}))
 	app.Get("/login", func(c *fiber.Ctx) error {
-		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-		return c.SendString(login_html)
+		return c.Render("public/login", fiber.Map{
+			"notice": "ログインしてください。",
+		})
 	})
 	app.Get("/", func(c *fiber.Ctx) error {
-		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-		return c.SendString(index_html)
+		return c.Render("public/index", fiber.Map{
+			"notice": "メッセージを送っていただけますと幸いです♪",
+		})
 	})
 	app.Post("/post", timeout.New(post_message, 60*time.Second))
 
