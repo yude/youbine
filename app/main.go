@@ -48,7 +48,7 @@ func main() {
 			"notice": "メッセージを送っていただけますと幸いです♪",
 		})
 	})
-	app.Post("/post", timeout.New(post_message, 60*time.Second))
+	app.Post("/", timeout.New(post_message, 60*time.Second))
 
 	app.Post("/admin/login", timeout.New(controllers.Login, 60*time.Second))
 	app.Get("/admin", admin)
