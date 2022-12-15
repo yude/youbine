@@ -7,8 +7,6 @@ services:
       POSTGRES_PASSWORD: app
       POSTGRES_DB: app
       TZ: "Asia/Tokyo"
-    ports:
-      - 5432:5432
     volumes:
       - ./data/db:/var/lib/postgresql/data
 
