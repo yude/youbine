@@ -30,3 +30,16 @@ func AddMessage(content string, ip_addr string) {
 		log.Fatal(err)
 	}
 }
+
+func ReturnMessage() []Message {
+	db := GetCredentials()
+	defer db.Close()
+
+	var messages []Message
+	err := db.Model(&messages).Select()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return messages
+}
