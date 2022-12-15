@@ -20,7 +20,7 @@ $ cd app; go build .
     | POSTGRES_DB       | PostgreSQL のデータベース名                                       | app                                    | 
     | POSTGRES_USER     | PostgreSQL のユーザー名                                           | app                                    | 
     | POSTGRES_PASSWORD | PostgreSQL のパスワード                                           | app                                    | 
-    | ADMIN_PASSWORD    | 管理ページのパスワード、Bcrypt により事前にハッシュ化してください | <random>; to protect unintended access | 
+    | ADMIN_PASSWORD    | 管理ページのパスワード、Bcrypt により事前にハッシュ化してください | `<random>`; to protect unintended access | 
 
 ## License
 MIT License.
