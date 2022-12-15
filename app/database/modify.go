@@ -36,7 +36,7 @@ func ReturnMessage() []Message {
 	defer db.Close()
 
 	var messages []Message
-	err := db.Model(&messages).Select()
+	err := db.Model(&messages).Order("date_time DESC").Select()
 	if err != nil {
 		log.Fatal(err)
 	}
