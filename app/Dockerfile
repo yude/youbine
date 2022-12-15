@@ -4,8 +4,8 @@ WORKDIR /app
 COPY . /app
 RUN go build .
 
-FROM alpine:latest AS runner
+FROM debian:latest AS runner
 WORKDIR /app
-COPY --from=builder /app/youbine /app/
+COPY --from=builder /app/youbine /app/youbine
 
-ENTRYPOINT ["./youbine"]
+ENTRYPOINT ["/app/youbine"]
