@@ -5,7 +5,6 @@ services:
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
-      PGPASSWORD: app
       POSTGRES_DB: app
       TZ: "Asia/Tokyo"
     ports:
@@ -15,15 +14,17 @@ services:
 
   app:
     image: ghcr.io/yude/youbine:master
-    # build: .
+    # build:
+    #   context: app
+    #   dockerfile: ./Dockerfile
     restart: unless-stopped
     env_file:
       - .env
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
-      PGPASSWORD: app
       POSTGRES_DB: app
+      POSTGRES_HOST: db
       TZ: "Asia/Tokyo"
     ports:
       - 3000:3000
