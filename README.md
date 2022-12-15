@@ -22,5 +22,9 @@ $ cd app; go build .
     | `POSTGRES_PASSWORD` | PostgreSQL のパスワード                                           | `app`                                    | 
     | `ADMIN_PASSWORD`    | 管理ページのパスワード、Bcrypt により事前にハッシュ化してください | `<random>`; to protect unintended access | 
 
+## Use
+* `/`: 受付
+* `/admin`: 管理ページ
+
 ## License
 MIT License.
