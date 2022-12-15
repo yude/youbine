@@ -15,7 +15,10 @@ services:
 
   app:
     image: ghcr.io/yude/youbine:master
+    # build: .
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app
