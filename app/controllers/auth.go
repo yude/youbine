@@ -10,14 +10,14 @@ import (
 	utils "github.com/yude/youbine/utils"
 )
 
-func Login(ctx *fiber.Ctx) error {
-	value := ctx.FormValue("value")
+func Login(c *fiber.Ctx) error {
+	value := c.FormValue("value")
 
 	origin_password := []byte(utils.GetEnv("ADMIN_PASSWORD", "$2a$12$JBJza9iN0StqcAICG8xuv.ffEMyU2okVgOGos0CfVFRj6W/GyrMDi"))
 
 	err := bcrypt.CompareHashAndPassword(origin_password, []byte(value))
 	if err != nil {
-		return ctx.Render("public/login", fiber.Map{
+		return c.Render("static/login", fiber.Map{
 			"notice": "パスワードが違います。",
 		})
 	}
@@ -30,8 +30,8 @@ func Login(ctx *fiber.Ctx) error {
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, payload).SignedString([]byte("secret"))
 
 	if err != nil {
-		ctx.Status(fiber.StatusInternalServerError)
-		return ctx.Render("public/login", fiber.Map{
+		c.Status(fiber.StatusInternalServerError)
+		return c.Render("static/login", fiber.Map{
 			"notice": "サーバー内で問題が発生しました。",
 		})
 	}
@@ -43,7 +43,7 @@ func Login(ctx *fiber.Ctx) error {
 		HTTPOnly: true,
 	}
 
-	ctx.Cookie(&cookie)
+	c.Cookie(&cookie)
 
-	return ctx.Redirect("/admin")
+	return c.Redirect("/admin")
 }

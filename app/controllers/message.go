@@ -1,13 +1,14 @@
-package main
+package controllers
 
 import (
 	_ "embed"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/yude/youbine/database"
 )
 
-func post_message(c *fiber.Ctx) error {
+func Post(c *fiber.Ctx) error {
 	value := c.FormValue("value")
 
 	notice := "メッセージありがとうございました♪"
@@ -18,8 +19,10 @@ func post_message(c *fiber.Ctx) error {
 		notice += " 送れているかは別として・・・"
 	}
 
+	log.Print("New message: " + value + " from " + c.IP() + ":" + c.Port())
+
 	c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-	return c.Render("public/index", fiber.Map{
+	return c.Render("static/index", fiber.Map{
 		"notice": notice,
 	})
 }
