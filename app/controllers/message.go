@@ -14,6 +14,9 @@ func Post(c *fiber.Ctx) error {
 
 	notice := "メッセージありがとうございました♪"
 
+	if c.GetRespHeader("X-Forwarded-For") != "" {
+		client_ip = c.GetRespHeader("X-Forwarded-For")
+	}
 	if c.GetRespHeader("CF-Connecting-IP") != "" {
 		client_ip = c.GetRespHeader("CF-Connecting-IP")
 	}
