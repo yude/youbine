@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/yude/youbine/database"
+	"github.com/yude/youbine/webhook"
 )
 
 func Post(c *fiber.Ctx) error {
@@ -23,6 +24,7 @@ func Post(c *fiber.Ctx) error {
 
 	if value != "" {
 		database.AddMessage(value, client_ip+":"+c.Port())
+		webhook.Post("新しいメッセージを受信しました")
 	} else {
 		notice += " 送れているかは別として・・・"
 	}
