@@ -12,6 +12,7 @@ import (
 	"github.com/yude/youbine/controllers"
 	"github.com/yude/youbine/database"
 	"github.com/yude/youbine/routes"
+	"github.com/yude/youbine/webhook"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -31,6 +32,7 @@ func main() {
 	}
 
 	database.Init()
+	webhook.Initialize()
 
 	engine := html.NewFileSystem(http.FS(staticfs), ".html")
 	app := fiber.New(fiber.Config{
