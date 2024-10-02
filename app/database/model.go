@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/go-pg/pg"
@@ -20,7 +21,23 @@ func create_schema(db *pg.DB) error {
 	}
 
 	for _, model := range models {
-		err := db.Model(model).CreateTable(&orm.CreateTableOptions{
+		var exists bool
+		_, err := db.QueryOne(pg.Scan(&exists), `
+        SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = ?
+        )`, "messages")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if exists {
+			break
+		}
+
+		err = db.Model(model).CreateTable(&orm.CreateTableOptions{
 			Temp: false,
 		})
 		if err != nil {
